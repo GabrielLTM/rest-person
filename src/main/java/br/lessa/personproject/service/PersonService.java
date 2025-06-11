@@ -1,6 +1,11 @@
 package br.lessa.personproject.service;
 
+import br.lessa.personproject.dto.PersonDTO;
 import br.lessa.personproject.exception.ResourceNotFoundException;
+
+import static br.lessa.personproject.mapper.ObjectMapper.parseListObjects;
+import static br.lessa.personproject.mapper.ObjectMapper.parseObject;
+
 import br.lessa.personproject.model.Person;
 import br.lessa.personproject.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +24,26 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Person findById(String id) {
+    public PersonDTO findById(String id) {
         logger.info("Finding one person!");
-        return personRepository.findById(Long.parseLong(id)).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-
+        var entity = personRepository.findById(Long.parseLong(id)).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        return parseObject(entity, PersonDTO.class);
     }
 
-    public List<Person> findAll() {
+    public List<PersonDTO> findAll() {
 
         logger.info("Finding all persons");
 
-        return personRepository.findAll();
+        return parseListObjects(personRepository.findAll(), PersonDTO.class);
     }
 
-    public Person create(Person person) {
+    public PersonDTO create(PersonDTO person) {
 
         logger.info("Creating one Person!");
 
-        return personRepository.save(person);
+        var entity = parseObject(person, Person.class);
+
+        return parseObject(personRepository.save(entity), PersonDTO.class);
     }
 
     public void delete(String id) {
@@ -47,16 +54,16 @@ public class PersonService {
         if (personExists) {
             logger.info("Deleting Person " + id);
             personRepository.deleteById(personId);
-        }else{
+        } else {
             throw new ResourceNotFoundException("No resource found for this ID");
         }
     }
 
-    public Person update(String id, Person person) {
+    public PersonDTO update(String id, PersonDTO person) {
 
         var longId = Long.parseLong(id);
 
-        var personSaved = personRepository.findById(longId).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+        Person personSaved = personRepository.findById(longId).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         logger.info("Updating Person with id");
 
         personSaved.setFirstName(person.getFirstName());
@@ -64,7 +71,7 @@ public class PersonService {
         personSaved.setAddress(person.getAddress());
         personSaved.setGender(person.getGender());
 
-        return personRepository.save(personSaved);
+        return parseObject(personRepository.save(personSaved), PersonDTO.class);
 
 
     }

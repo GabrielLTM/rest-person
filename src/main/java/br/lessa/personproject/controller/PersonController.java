@@ -1,5 +1,6 @@
 package br.lessa.personproject.controller;
 
+import br.lessa.personproject.dto.PersonDTO;
 import br.lessa.personproject.model.Person;
 import br.lessa.personproject.service.PersonService;
 import org.springframework.http.MediaType;
@@ -23,17 +24,17 @@ public class PersonController {
             value = "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Person findById(@PathVariable("id") String id){
+    public PersonDTO findById(@PathVariable("id") String id){
         return personService.findById(id);
     }
 
     @GetMapping
-    public List<Person> findAll(){
+    public List<PersonDTO> findAll(){
         return personService.findAll();
     }
 
     @PostMapping
-    public Person createPerson(@RequestBody Person person){
+    public PersonDTO createPerson(@RequestBody PersonDTO person){
         return personService.create(person);
     }
 
@@ -44,7 +45,7 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public Person updatePerson(@PathVariable("id") String id, @RequestBody Person person){
+    public PersonDTO updatePerson(@PathVariable("id") String id, @RequestBody PersonDTO person){
         return personService.update(id, person);
     }
 

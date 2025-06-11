@@ -7,6 +7,11 @@ plugins {
 group = 'br.lessa'
 version = '0.0.1-SNAPSHOT'
 
+ext {
+    dozerVersion = '7.0.0'
+}
+
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -20,6 +25,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation "com.github.dozermapper:dozer-core:$dozerVersion"
     runtimeOnly 'com.mysql:mysql-connector-j'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -1,15 +1,20 @@
 package br.lessa.personproject.dto;
 
 import br.lessa.personproject.model.Person;
+import org.springframework.hateoas.RepresentationModel;
+//import com.fasterxml.jackson.annotation.JsonProperty;
+//import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-public class PersonDTO implements Serializable {
+//@JsonPropertyOrder({ "id", "address","first_name", "last_name",  "gender" })
+public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private String id;
+//    @JsonProperty("first_name")
     private String firstName;
     private String lastName;
     private String address;
@@ -18,11 +23,11 @@ public class PersonDTO implements Serializable {
     public PersonDTO() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

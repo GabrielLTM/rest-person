@@ -2,6 +2,7 @@ package br.lessa.personproject.service;
 
 import br.lessa.personproject.controller.PersonController;
 import br.lessa.personproject.dto.PersonDTO;
+import br.lessa.personproject.exception.RequiredObjectIsNullException;
 import br.lessa.personproject.exception.ResourceNotFoundException;
 import br.lessa.personproject.model.Person;
 import br.lessa.personproject.repository.PersonRepository;
@@ -24,7 +25,7 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
-    public PersonDTO findById(String id) {
+    public PersonDTO findById(Long id) {
         logger.info("Finding one person!");
         var entity = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         var dto = parseObject(entity, PersonDTO.class);
@@ -43,6 +44,8 @@ public class PersonService {
 
     public PersonDTO create(PersonDTO person) {
 
+        if (person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Creating one Person!");
 
         var entity = parseObject(person, Person.class);
@@ -52,9 +55,7 @@ public class PersonService {
         return dto;
     }
 
-    public void delete(String id) {
-
-
+    public void delete(Long id) {
 
         var personExists = personRepository.existsById(id);
         if (personExists) {
@@ -65,7 +66,9 @@ public class PersonService {
         }
     }
 
-    public PersonDTO update(String id, PersonDTO person) {
+    public PersonDTO update(Long id, PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectIsNullException();
 
         Person personSaved = personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
         logger.info("Updating Person with id");

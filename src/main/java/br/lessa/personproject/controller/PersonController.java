@@ -27,7 +27,7 @@ public class PersonController {
             MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_YAML_VALUE}
     )
-    public PersonDTO findById(@PathVariable("id") String id){
+    public PersonDTO findById(@PathVariable("id") Long id){
         return personService.findById(id);
     }
 
@@ -55,7 +55,7 @@ public class PersonController {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_YAML_VALUE})
-    public ResponseEntity<?> deletePerson(@PathVariable("id") String id){
+    public ResponseEntity<?> deletePerson(@PathVariable("id") Long id){
          personService.delete(id);
          return ResponseEntity.noContent().build();
     }
@@ -70,7 +70,7 @@ public class PersonController {
             MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_YAML_VALUE}
     )
-    public PersonDTO updatePerson(@PathVariable("id") String id, @RequestBody PersonDTO person){
+    public PersonDTO updatePerson(@PathVariable("id") Long id, @RequestBody PersonDTO person){
         return personService.update(id, person);
     }
 

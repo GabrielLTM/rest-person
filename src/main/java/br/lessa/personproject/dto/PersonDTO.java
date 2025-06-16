@@ -13,7 +13,7 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private Long id;
 //    @JsonProperty("first_name")
     private String firstName;
     private String lastName;
@@ -23,11 +23,11 @@ public class PersonDTO extends RepresentationModel<PersonDTO> implements Seriali
     public PersonDTO() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

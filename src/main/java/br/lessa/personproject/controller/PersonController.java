@@ -1,8 +1,9 @@
 package br.lessa.personproject.controller;
 
+import br.lessa.personproject.controller.docs.PersonControllerDocs;
 import br.lessa.personproject.dto.PersonDTO;
-import br.lessa.personproject.model.Person;
 import br.lessa.personproject.service.PersonService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/person/v1")
-public class PersonController {
+@Tag(name="People", description="Endpoints for Managing People")
+public class PersonController implements PersonControllerDocs {
 
     private final PersonService personService;
 
@@ -23,10 +25,11 @@ public class PersonController {
     @GetMapping(
             value = "/{id}",
             produces = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE,
-            MediaType.APPLICATION_YAML_VALUE}
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE}
     )
+    @Override
     public PersonDTO findById(@PathVariable("id") Long id){
         return personService.findById(id);
     }
@@ -34,7 +37,8 @@ public class PersonController {
     @GetMapping(produces = {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
-             MediaType.APPLICATION_YAML_VALUE})
+            MediaType.APPLICATION_YAML_VALUE})
+    @Override
     public List<PersonDTO> findAll(){
         return personService.findAll();
     }
@@ -43,10 +47,11 @@ public class PersonController {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_YAML_VALUE},
-                consumes = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE,
-            MediaType.APPLICATION_YAML_VALUE})
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE})
+    @Override
     public PersonDTO createPerson(@RequestBody PersonDTO person){
          return personService.create(person);
     }
@@ -55,6 +60,8 @@ public class PersonController {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE,
             MediaType.APPLICATION_YAML_VALUE})
+
+    @Override
     public ResponseEntity<?> deletePerson(@PathVariable("id") Long id){
          personService.delete(id);
          return ResponseEntity.noContent().build();
@@ -62,14 +69,15 @@ public class PersonController {
 
     @PutMapping(value = "/{id}",
             produces = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE,
-            MediaType.APPLICATION_YAML_VALUE},
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE},
             consumes = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE,
-            MediaType.APPLICATION_YAML_VALUE}
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE}
     )
+    @Override
     public PersonDTO updatePerson(@PathVariable("id") Long id, @RequestBody PersonDTO person){
         return personService.update(id, person);
     }

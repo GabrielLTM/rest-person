@@ -1,17 +1,15 @@
+server:
+  port: 8888
 cors:
   originPatterns: http://localhost:8080,http://localhost:3000,https://www.erudio.com.br
-
 spring:
   application:
     name: person-project
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spring_boot?userTimezone=true&serverTimezone=UTC
-    username: root
-    password: 1234
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
     show-sql: false
